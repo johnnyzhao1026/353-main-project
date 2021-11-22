@@ -1,9 +1,20 @@
-<?php require_once '../database.php';
+<?php require_once '../connectdb.php';
 
-$statement = $conn->prepare("delete from main.age where age.id = :id; ");
-$statement->bindParam(":id",$_GET["id"]);
-$statement->execute();
-header("Location: .");
+if(isset($_GET["id"])){
+    $ageGroup = $_GET["id"];
+
+    $sql_query = "Delete from groupage where ageGroup = '$ageGroup'";
+   $result = mysqli_query($conn,$sql_query);
+
+
+    if ($result){
+        header("Location: ./age.php");
+    }
+    else echo "delete failed";
+    
+}
+
+
 ?>
 
 

@@ -1,82 +1,57 @@
 
-<?php require_once '../database.php';
-
-$statement = $conn->prepare("select id,num,yorn, i_medcard, infection_date, type from main.infect as infect where infect.id = :id");
-$statement->bindParam(":id",$_GET["id"]);
-$statement->execute();
-$infect = $statement->fetch(PDO::FETCH_ASSOC);
 
 
+<?php require_once '../connectdb.php';
 
-    if (isset($_POST["id"])&&isset($_POST["num"])&&isset($_POST["yorn"])&&isset($_POST["i_medcard"])
-       &&isset($_POST["infection_date"])&&isset($_POST["type"])   )
-    {
-
-    $statement = $conn->prepare("update main.infect set num = :num,yorn=:yorn,i_medcard=:i_medcard,infection_date=:infection_date,type=:type where id = :id;"
-   );
-    
-   $statement->bindParam(':id', $_POST["id"]);
-$statement->bindParam(':num', $_POST["num"]);
-$statement->bindParam(':yorn', $_POST["yorn"]);
-$statement->bindParam(':i_medcard', $_POST["i_medcard"]);
-$statement->bindParam(':infection_date', $_POST["infection_date"]);
-$statement->bindParam(':type', $_POST["type"]);
+if(isset($_GET["id"])){
+  $infectedTypeID = $_GET["id"];
+  $sql_query = "select * from infectedtype where infectedTypeID = '$infectedTypeID'";
+  $infection = mysqli_query($conn,$sql_query);
+}
 
 
-
-if($statement->execute())
-    header("Location: .");
-    else
-    header("Location: ./edit.php?id=".$_POST["id"]);
-
-
-
-
-   }
 
 ?>
 
 
 
-<!DOCTYPE html>
-<html lang="en">
+
+
+<html>
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Edit infection Type</title>
 </head>
 <body>
-
-<h1>Edit infect</h1>
+<div><h1>Edit infection type</h1>
     
-<form action ="./edit.php" method ="post">
+    <form action ="./updateInfection.php" method ="post">
+    
+    <?php
+    while($data = mysqli_fetch_array($infection))
+    { ?>
+    <label> <b>Infected Type ID</b> </label><br>
+      <input type=text name='infectedTypeID' required value="<?=$data['infectedTypeID']?>"> </input><br>
+    
+      <label> <b>Infected Type Name</b> </label><br>
+      <input type=text  name='infectedTypeName' required value="<?=$data['infectedTypeName']?>"> </input><br>
+     
+      <?php 
+    }
+    ?>
+
+    <button type="submit">Update</button>
+    </form>
+    <br>
+    
+    <a href="./infection.php">Back to Infection Records page</a>
+    </body>
+    
+  
 
 
- 
-  <label> <b>Number </b> </label><br>
-  <input type=text placeholder="please enter number" name='num' required id="num" value="<?=$infect["num"]?>"> </input><br>
-
-  <label> <b>yorn</b> </label><br>
-  <input type=text placeholder="yorn" name='yorn' required id="yorn" value="<?=$infect["yorn"]?>"> </input><br>
-
-  <label> <b>infect medcard</b> </label><br>
-  <input type=text placeholder="please enter infect medcard" name='i_medcard' required id="i_medcard" value="<?=$infect["i_medcard"]?>"> </input><br>
-
-  <label> <b>infection date</b> </label><br>
-  <input type=text placeholder="please enter infection date" name='infection_date' required id="infection_date" value="<?=$infect["infection_date"]?>"> </input><br>
-
-  <label> <b>type</b> </label><br>
-  <input type=text placeholder="please enter type" name='type' required id="type" value="<?=$infect["type"]?>"> </input><br>
-
-
-  <input type="hidden" name='id' required id="id" value="<?=$person["id"]?>"> </input><br>
-
-
-<button type="submit">Update</button>
-</form>
-
-
-<a href="./">Back to main page</a>
-</body>
 </html>
+
+

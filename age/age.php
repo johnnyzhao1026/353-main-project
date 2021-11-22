@@ -1,56 +1,51 @@
 <?php
-
-$db = mysqli_connect("localhost:3316","root","","main");
-
-if(!$db)
-{
-    die("Connection failed: " . mysqli_connect_error());
-}
-
+// connect to db
+include_once '../connectdb.php';
 ?>
 
 <!DOCTYPE html> 
 <html>
 <head>
-  <title>Display all records from Database</title>
+  <title>Age Group</title>
 </head>
 <body>
 
-<h2>Group Aged</h2>
+<h2>Age Group</h2>
 
 <h3> <a href="../age/create.php">Create</a></h3>
-<table border="2">
-  <tr>
-    <td>groupID</td>
-    <td>max_age</td>
-    <td>min_age</td>
-    <th>Edit</th>
-            <th>Delete</th>
-            <th>Display</th>
-  </tr>
+<table border="1" cellspacing="0">
+      
+        <tr style="background-color: lightgray;">
+            <td>Age Group</td>
+            <td>min</td>
+            <td>max</td>
+            <td>Edit</td>
+            <td>Delete</td>
+            
+        </tr>
+        
+<?php
 
-  <?php
-
-//include "dbConn.php"; // Using database connection file here
-
-$records = mysqli_query($db,"select * from main.age"); // fetch data from database
+$records = mysqli_query($conn,"select * from groupage"); // fetch data from database
 
 while($data = mysqli_fetch_array($records))
 {
 ?>
   <tr>
-    <td><?php echo $data['id']; ?></td>
-    <td><?php echo $data['max_age']; ?></td>
-    <td><?php echo $data['min_age']; ?></td>    
+    <td><?php echo $data['ageGroup']; ?></td>
+    <td><?php echo $data['min']; ?></td>
+    <td><?php echo $data['max']; ?></td>
+    
+      
+    <td><a href="../age/edit.php?id=<?php echo $data['ageGroup']; ?>">Edit</a></td>
+    <td><a href="../age/delete.php?id=<?php echo $data['ageGroup']; ?>">Delete</a></td>
    
-    <td><a href="../age/edit.php?id=<?php echo $data['id']; ?>">Edit</a></td>
-    <td><a href="../age/delete.php?id=<?php echo $data['id']; ?>">Delete</a></td>
-    <td><a href="../age/diaplay.php?id=<?php echo $data['id']; ?>">Display</a></td>
   </tr>	
 <?php
 }
 ?>
 </table>
 
+<a href="../index.php">Back to main page</a>
 </body>
 </html>

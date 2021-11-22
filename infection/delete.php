@@ -1,7 +1,18 @@
-<?php require_once '../database.php';
+<?php require_once '../connectdb.php';
 
-$statement = $conn->prepare("delete from main.infect where infect.id = :id; ");
-$statement->bindParam(":id",$_GET["id"]);
-$statement->execute();
-header("Location: ./infection.php");
+if(isset($_GET["id"])){
+    $typeID = $_GET["id"];
+
+    $sql_query = "Delete from infectedtype where infectedTypeID = '$typeID'";
+   $result = mysqli_query($conn,$sql_query);
+
+
+    if ($result){
+        header("Location: ./infection.php");
+    }
+    else echo "delete failed";
+    
+}
+
+
 ?>

@@ -1,78 +1,64 @@
 
-<?php require_once '../database.php';
-
-$statement = $conn->prepare("select * from main.vaccination as vaccination where vaccination.id = :id");
-$statement->bindParam(":id",$_GET["id"]);
-$statement->execute();
-$vaccination = $statement->fetch(PDO::FETCH_ASSOC);
-
-    if (isset($_POST["id"])&&  isset($_POST["type"])&&isset($_POST["status"])&&isset($_POST["date_sus"])&&isset($_POST["date_approval"]))
-    {
-
-    $vaccination = $conn->prepare("update main.vaccination set id = :id,type = :type,status = :status,date_sus=:date_sus,date_approval=:date_approval where id = :id;"
-   );
-    
-
-$statement->bindParam(':id', $_POST["id"]);
-$statement->bindParam(':type', $_POST["type"]);
-$statement->bindParam(':status', $_POST["status"]);
-$statement->bindParam(':date_sus', $_POST["date_sus"]);
-$statement->bindParam(':date_approval', $_POST["date_approval"]);
-
-$statement->bindParam(':id', $_POST["id"]);
 
 
-if($statement->execute())
-    header("Location: .");
-    else
-    header("Location: ./edit.php?id=".$_POST["id"]);
+<?php require_once '../connectdb.php';
+
+if(isset($_GET["id"])){
+  $typeName = $_GET["id"];
+  $sql_query = "select * from vaccination where typeName = '$typeName'";
+  $vaccination = mysqli_query($conn,$sql_query);
+}
 
 
-
-
-   }
 
 ?>
 
 
 
-<!DOCTYPE html>
-<html lang="en">
+
+
+<html>
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Edit vaccination</title>
 </head>
 <body>
-
-<h1>Edit vaccination</h1>
+<div><h1>Edit Vaccination</h1>
     
-<form action ="./edit.php" method ="post">
+    <form action ="./updateVaccination.php" method ="post">
+    
+    <?php
+    while($data = mysqli_fetch_array($vaccination))
+    { ?>
+    <label> <b>Vaccination Type Name</b> </label><br>
+      <input type=text name='typeName' required value="<?=$data['typeName']?>"> </input><br>
+    
+      <label> <b>Approved Date</b> </label><br>
+      <input type=text  name='approvedDate' required value="<?=$data['approvedDate']?>"> </input><br>
+     
+      <label> <b>status</b> </label><br>
+      <input type=text name=' status'  value="<?=$data['status']?>"> </input><br>
+    
+      <label> <b>Suspension Date</b> </label><br>
+      <input type=text  name='dateOfSuspension'  value="<?=$data['dateOfSuspension']?>"> </input><br>
+    
+     
+      <?php 
+    }
+    ?>
 
+    <button type="submit">Update</button>
+    </form>
+    <br>
+    
+    <a href="./vaccination.php">Back to Vaccination Records page</a>
+    </body>
+    
   
-  <label> <b>vaccination ID</b> </label><br>
-  <input type=text placeholder="please enter vcaccination ID" name='id' id="id" value="<?=$vaccination["id"]?>"> </input><br>
-
-  <label> <b>type</b> </label><br>
-  <input type=text placeholder="please enter type" name='type' required id="type" value="<?=$vaccination["type"]?>"> </input><br>
-
-  <label> <b>status</b> </label><br>
-  <input type=text placeholder="please enter status" name='status' required id="status" value="<?=$vaccination["status"]?>"> </input><br>
-
-  <label> <b>date suspense</b> </label><br>
-  <input type=text placeholder="YYYY-MM-DD" name='date_sus' required id="date_sus" value="<?=$vaccination["date_sus"]?>"> </input><br>
-
-  <label> <b>date approval</b> </label><br>
-  <input type=text placeholder="YYYY-MM-DD" name='date_approval' required id="date_approval" value="<?=$vaccination["date_approval"]?>"> </input><br>
-
-  
-  <input type="hidden" name='id' required id="id" value="<?=$person["id"]?>"> </input><br>
-
-<button type="submit">Update</button>
-</form>
 
 
-<a href="./">Back to main page</a>
-</body>
 </html>
+
+

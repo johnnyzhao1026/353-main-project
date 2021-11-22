@@ -53,19 +53,19 @@
 
  
 <dt> <b ><a> 4.Vaccination Type</a></b> </dt>
-<a  href="./vaccination/vaccination.php" class="btn-danger" > Function: Create/Delete/Edit/Display</a>
+<a  href="./vaccination/vaccination.php" class="btn-danger" >Display</a>
 <br>
   <br>
 
 
 <dt> <b ><a> 5.COVID-19 infection Variant Type</a></b> </dt>
-<a  href="./infection/infection.php"> Function: Create/Delete/Edit/Display</a>
+<a  href="./infection/infection.php">Display</a>
 <br>
   <br>
 
 
 <dt> <b ><a> 6.Age Group</a></b> </dt>
-<a  href="./age/age.php" class="btn-danger"> Function: Create/Delete/Edit/Display</a>
+<a  href="./age/age.php" class="btn-danger">Display</a>
 <br>
   <br>
 
@@ -143,10 +143,20 @@
 <dt> <b > 19.Give a detailed report of all the facilities in the city of Montréal.</b> </dt>
     <a href="./query19.php" class="btn-danger">Give</a>
 <br>
- <br>
+ 
+<br>
+<div> <dt> <b > 20.For a given person, display the bookings if applicable,the history of vaccinations if applicable, and the history of infections if applicable.</b> </dt>
+
+<form action="./query20.php" method = "post">
+            
+        <input type="text" placeholder="please enter personID" name = "personID" required>
+        
+             <button type="submit">Search</button>
+       </form>
+
   
- <dt> <b > 20.For a given person, display the bookings if applicable,the history of vaccinations if applicable, and the history of infections if applicable.</b> </dt>
-    <a href="./query20.php" class="btn-danger">Give</a>
+  </div>
+
 <br>
  <br> 
   

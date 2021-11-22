@@ -1,35 +1,28 @@
 <?php
-
-$db = mysqli_connect("localhost:3316","root","","main");
-
-if(!$db)
-{
-    die("Connection failed: " . mysqli_connect_error());
-}
-
+// connect to db
+include_once '../connectdb.php';
 ?>
 
 <!DOCTYPE html> 
 <html>
 <head>
-  <title>Display all records from Database</title>
+  <title>Vaccination Records</title>
 </head>
 <body>
 
 <h2>Public Health Facility</h2>
 
 <h3> <a href="../vaccination/create.php">Create</a></h3>
-<table border="2">
+<table border="1" cellspacing="0">
       
-        <tr>
-            <td>ID</td>
-            <td>Type</td>
+        <tr style="background-color: lightgray;">
+            <td>Vaccination Type name</td>
+            <td>Arrpoved Date</td>
             <td>Status</td>
-            <td>Date_sus</td>
-            <td>Date_approval</td>
+            <td>Date of Suspension</td>
             <th>Edit</th>
             <th>Delete</th>
-            <th>Display</th>
+            
 
            
            
@@ -38,27 +31,26 @@ if(!$db)
         
 <?php
 
-//include "dbConn.php"; // Using database connection file here
-
-$records = mysqli_query($db,"select * from main.vaccination"); // fetch data from database
+$records = mysqli_query($conn,"select * from vaccination"); // fetch data from database
 
 while($data = mysqli_fetch_array($records))
 {
 ?>
   <tr>
-    <td><?php echo $data['id']; ?></td>
-    <td><?php echo $data['type']; ?></td>
+    <td><?php echo $data['typeName']; ?></td>
+    <td><?php echo $data['approvedDate']; ?></td>
     <td><?php echo $data['status']; ?></td>    
-    <td><?php echo $data['date_sus']; ?></td>  
-    <td><?php echo $data['date_approval']; ?></td>    
-    <td><a href="../vaccination/edit.php?id=<?php echo $data['id']; ?>">Edit</a></td>
-    <td><a href="../vaccination/delete.php?id=<?php echo $data['id']; ?>">Delete</a></td>
-    <td><a href="../vaccination/display.php?id=<?php echo $data['id']; ?>">Display</a></td>
+    <td><?php echo $data['dateOfSuspension']; ?></td>  
+      
+    <td><a href="../vaccination/edit.php?id=<?php echo $data['typeName']; ?>">Edit</a></td>
+    <td><a href="../vaccination/delete.php?id=<?php echo $data['typeName']; ?>">Delete</a></td>
+    <!-- <td><a href="../vaccination/display.php?id=<?php echo $data['typeName']; ?>">Display</a></td> -->
   </tr>	
 <?php
 }
 ?>
 </table>
 
+<a href="../index.php">Back to main page</a>
 </body>
 </html>

@@ -4,6 +4,34 @@
 // connect to db
 include_once 'connectdb.php';
 
+
+if(isset($_POST['personID'])){
+
+
+  $personID = $_POST['personID'];
+  
+  $sql_query = "select VaccinationFacility.name , vaccinationFacility.address, appointmentinformation.date,appointmentinformation.time
+                from VaccinationFacility,appointmentinformation
+                where appointmentinformation.personID = $personID and appointmentinformation.facilityID = VaccinationFacility.facilityID
+               ";
+
+  $sql_query_infectedhistory ="select * 
+                              from infectedhistory
+                              where infectedhistory.personID = $personID
+                              " ;     
+                      
+  $sql_query_vaccinatedhistory = "select * 
+  from vaccinatedhistory
+  where vaccinatedhistory.personID = $personID ;";                
+  
+  $facilityresult = mysqli_query($conn,$sql_query);
+  $infectedhistory = mysqli_query($conn,$sql_query_infectedhistory);
+  $vaccinatedhistory = mysqli_query($conn,$sql_query_vaccinatedhistory);
+
+}
+
+  
+
 ?>
 
 <!DOCTYPE html> 
@@ -15,69 +43,101 @@ include_once 'connectdb.php';
 
 <h2>Query 20</h2>
 
-<h3> Get details of all the people who live in the city of Montréal and who got
-vaccinated only one dose.</h3>
+<h3> For a given person, display the bookings if applicable (include the facility name, 
+  address of the facility, day, and time of the booking), the history of vaccinations if applicable, 
+  and the history of infections if applicable</h3>
 
-<table border="2">
+
+  <!-- facility and appointment info -->
+  <h4>Appointment Information</h4>
+<table border="1" cellspacing="0">
   <tr>
     
-  <td>First name</td>
-  <td>Last name</td>
-    <td>Birth</td>
-    <td>Email</td>
-    <td>phone</td>
-    <td>city</td>
-    <td>infected times</td>
-    
-    
+  <td>facility name</td>
+  <td>facility address</td>
+  <td>appointment date</td>
+  <td>appointment time</td>
+
   </tr>
 
 <?php
 
-//include "dbConn.php"; // Using database connection file here
-
-$sql_query = "select Person.firstName,Person.lastName,Person.dateOfBirth,email,Person.phoneNumber,Person.city,InfectedHistory.infectedTimes
-from Person,InfectedHistory,VaccinatedHistory
-where age >= 18
-and (VaccinatedHistory.doseNum = 0 or VaccinatedHistory.doseNum = NULL)
-and Person.isRegistered = 1
-and(Person.mediCardNum = InfectedHistory.mediCardNum or InfectedHistory.mediCardNum = NULL)  
-and (Person.mediCardNum = VaccinatedHistory.mediCardNum or VaccinatedHistory.mediCardNum = null)
-group by Person.province
-" ;
-
-$result = mysqli_query($conn,$sql_query);
-
-// $records = mysqli_query($db,"SELECT employee.EID, employee.first_name, employee.last_name, employee.birth,
-// employee.phone, employee.city, employee.email, facility.facilityName AS location_name
-// FROM main.employee, main.Femployee,main.facility, main.province, main.Eperson,main.person, main.given 
-// where Eperson.id = person.id && Eperson.EID = Femployee.EID && Femployee.EID = employee.EID && 
-// Femployee.FID = facility.id&& employee.province = 'Quebec' && given.id = person.id && given.dose_num < 1"); // fetch data from database
-
-while($data = mysqli_fetch_array($result))
+  while($data = mysqli_fetch_array($facilityresult))
 {
 ?>
   <tr>
 
-  <td><?php echo $data['firstName']; ?></td>
-  <td><?php echo $data['lastName']; ?></td>
-  <td><?php echo $data['dateOfBirth']; ?></td>
-  <td><?php echo $data['email']; ?></td>
-  <td><?php echo $data['phoneNumber']; ?></td>
-  <td><?php echo $data['city']; ?></td>
-  <td><?php echo $data['infectedTimes']; ?></td>
-  
- 
-   
-    
-    
+  <td><?php echo $data['name']; ?></td>
+  <td><?php echo $data['address']; ?></td>
+  <td><?php echo $data['date']; ?></td>
+  <td><?php echo $data['time']; ?></td>
     
   </tr>	
 <?php
 }
 ?>
 </table>
+<br>
 
+<!-- infection history -->
+<h4>infection history</h4>
+<table border="1" cellspacing="0" >
+    <tr style="background-color:lightgray;" align="center">
+        
+        <td>infectedTimes</td>
+        <td>date of infection</td>
+        <td>infected type id</td>
+
+    </tr>
+
+<?php
+while($data = mysqli_fetch_array($infectedhistory))
+{ ?>
+
+    <tr align="center">
+        <td><?php echo $data['infectedTimes']; ?></td>
+        <td><?php echo $data['dateOfInfection']; ?></td>
+        <td><?php echo $data['infectedTypeID']; ?></td>
+    </tr>
+
+<?php
+}
+?>
+</table> 
+
+</table>
+<br>
+
+<!-- vaccination history -->
+<h4>vaccinated history</h4>
+<table border="1" cellspacing="0" >
+    <tr style="background-color:lightgray;" align="center">
+        <td>Vaccinated Date</td>
+        <td>dose number</td>
+        <td>lot number</td>
+        <td>vaccinated type name</td>
+        <td>given by job ID</td>
+    </tr>
+
+<?php
+while($data = mysqli_fetch_array($vaccinatedhistory))
+{ ?>
+
+    <tr align="center">
+        <td><?php echo $data['dateOfVaccinated']; ?></td>
+        <td><?php echo $data['doseNum']; ?></td>
+        <td><?php echo $data['lotNum']; ?></td>
+        <td><?php echo $data['vaccinatedType']; ?></td>
+        <td><?php echo $data['givenByJobID']; ?></td>
+
+    </tr>
+
+<?php
+}
+?>
+</table> 
+
+<h3><a href="./index.php">Back to main page</a></h3>
 </body>
 </html>
 

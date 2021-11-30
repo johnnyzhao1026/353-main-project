@@ -36,7 +36,7 @@ if(isset($_GET["id"])){
       <input type=text name='typeName' required value="<?=$data['typeName']?>"> </input><br>
     
       <label> <b>Approved Date</b> </label><br>
-      <input type=text  name='approvedDate' required value="<?=$data['approvedDate']?>"> </input><br>
+      <input type=text  name='approvedDate'  value="<?=$data['approvedDate']?>"> </input><br>
      
       <label> <b>status</b> </label><br>
       <input type=text name=' status'  value="<?=$data['status']?>"> </input><br>
@@ -44,7 +44,8 @@ if(isset($_GET["id"])){
       <label> <b>Suspension Date</b> </label><br>
       <input type=text  name='dateOfSuspension'  value="<?=$data['dateOfSuspension']?>"> </input><br>
     
-     
+      <!-- key -->
+      <input type=text  name='oldTypeName'  value="<?=$data['typeName']?>"> </input><br>
       <?php 
     }
     ?>

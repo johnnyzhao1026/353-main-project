@@ -1,12 +1,55 @@
 
 <?php
 
-$db = mysqli_connect("localhost:3316","root","","main");
+// connect to db
+include_once 'connectdb.php';
 
-if(!$db)
-{
-    die("Connection failed: " . mysqli_connect_error());
+
+
+
+
+  $today = date("Y-m-d");
+  
+  $sql_query = " SELECT vaccinationfacility.name,vaccinationfacility.city,vaccinationfacility.address,vaccinationfacility.faclityType,vaccinationfacility.phoneNum,vaccinationfacility.capacity,
+  emp.total_workers as total_emp , 
+  does.total_does as total_Received_Does,
+  bookings.total_bookings as total_bookings
+
+FROM vaccinationfacility
+
+LEFT JOIN (SELECT publichealthworker.facilityID, COUNT( distinct publichealthworker.personID) AS total_workers
+         FROM publichealthworker 
+         group by publichealthworker.facilityID) as emp
+         
+         ON emp.facilityID = vaccinationfacility.facilityID
+
+LEFT JOIN (select vaccinatedhistory.facilityID, COUNT(vaccinatedhistory.doseNum) as total_does
+        FROM vaccinatedhistory
+         group by vaccinatedhistory.facilityID) as does                                           
+        
+         ON does.facilityID = vaccinationfacility.facilityID
+
+LEFT JOIN (SELECT appointmentinformation.facilityID,COUNT(appointmentinformation.date) as total_bookings
+         FROM appointmentinformation
+         WHERE appointmentinformation.date > '$today'
+         group by appointmentinformation.facilityID) as bookings
+         
+         on bookings.facilityID = vaccinationfacility.facilityID
+
+WHERE vaccinationfacility.city = 'Montreal'";
+
+   
+
+  $result = mysqli_query($conn,$sql_query);
+
+if($result){
+  echo "data found";
 }
+else {echo "no data matched";
+      die;
+}
+
+  
 
 ?>
 
@@ -15,76 +58,63 @@ if(!$db)
 <head>
   <title>Query 19</title>
 </head>
+
 <body>
 
 <h2>Query 19</h2>
 
-<h3>  Give a list of all public health workers in a specific facility.</h3>
+<h3> Give a detailed report of all the facilities in the city of Montréal. 
+  The report should include the name, address, type, phone number and capacity of the facility, 
+  the total number of public health workers working in the facility, 
+  the total number of doses people have received in the facility 
+  and the total number of doses scheduled by people to be vaccinated in the facility in the future. 
+  The report should be displayed in ascending order by the total number of doses given by each facility.</h3>
 
-<table border="2">
-  <tr>
-    
-  <td>employee ID</td>
-  <td>employee SSN</td>
-  <td>first name</td>
-    <td>last name</td>
-    <td>birthday</td>
-    <td>medical card</td>
-    <td>phone</td>
-    <td>address</td>
-    <td>city</td>
-    <td>province</td>
-    <td>post code</td>
-    <td>citizenship</td>
-    <td>email</td>
-    <td>start date</td>
-    <td>end date</td>
-    
-    
+
+  <!-- Facilities info in Montreal -->
+  <h4>Facilities info in Montreal</h4>
+<table border="1" cellspacing="0">
+  <tr style="background-color:lightgray;" align="center">
+  <td>Facility Name</td>
+  <td>Facility Address</td>
+  <td>Facility Type</td>
+  <td>Facility phone</td>
+  <td>Facility capacity</td>
+  <td>Total employees</td>
+  <td>Total Received Does number</td>
+  <td>Future bookings number</td>
+
   </tr>
 
 <?php
 
-//include "dbConn.php"; // Using database connection file here
-
-$records = mysqli_query($db,"SELECT employee.EID, employee.SSN, employee.first_name, employee.last_name, employee.birth, employee.medcard, 
-employee.phone, employee.address, employee.city, employee.province, employee.postal_code, employee.citizenship, employee.email, 
-Femployee.start, Femployee.end
-FROM main.employee, main.Femployee, main.facility where Femployee.EID = employee.EID && Femployee.FID = facility.id
-&& facility.id = 2"); // fetch data from database
-
-while($data = mysqli_fetch_array($records))
+  while($data = mysqli_fetch_array($result))
 {
 ?>
   <tr>
-
-  <td><?php echo $data['EID']; ?></td>
-  <td><?php echo $data['SSN']; ?></td>
-  <td><?php echo $data['first_name']; ?></td>
-  <td><?php echo $data['last_name']; ?></td>
-  <td><?php echo $data['birth']; ?></td>
-  <td><?php echo $data['medcard']; ?></td>
-  <td><?php echo $data['phone']; ?></td>
-    <td><?php echo $data['address']; ?></td>
-    <td><?php echo $data['city']; ?></td>
-    <td><?php echo $data['province']; ?></td>
-    <td><?php echo $data['postal_code']; ?></td>
-    <td><?php echo $data['citizenship']; ?></td>
-    <td><?php echo $data['email']; ?></td>
+  <td><?php echo $data['name']; ?></td>
+  <td><?php echo $data['address']; ?></td>
+  <td><?php echo $data['faclityType']; ?></td>
   
-    <td><?php echo $data['start']; ?></td>
-    <td><?php echo $data['end']; ?></td>
-    
-    
+  <td><?php echo $data['phoneNum']; ?></td>
+  <td><?php echo $data['capacity']; ?></td>
+  <td><?php echo $data['total_emp']; ?></td>
+  <td><?php echo $data['total_Received_Does']; ?></td>
+  <td><?php echo $data['total_bookings']; ?></td>
     
   </tr>	
 <?php
 }
 ?>
 </table>
+<br>
 
+
+
+<h3><a href="./index.php">Back to main page</a></h3>
 </body>
 </html>
+
 
 
 

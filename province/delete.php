@@ -1,7 +1,18 @@
-<?php require_once '../database.php';
+<?php require_once '../connectdb.php';
 
-$statement = $conn->prepare("delete from main.province where province.id = :id; ");
-$statement->bindParam(":id",$_GET["id"]);
-$statement->execute();
-header("Location: .");
+if(isset($_GET["id"])){
+    $provinceID = $_GET["id"];
+
+    $sql_query = "Delete from province where provinceID = '$provinceID'";
+   $result = mysqli_query($conn,$sql_query);
+
+
+    if ($result){
+        header("Location: ./province.php");
+    }
+    else echo "delete failed";
+    
+}
+
+
 ?>

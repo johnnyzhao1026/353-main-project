@@ -3,6 +3,8 @@ require_once '../connectdb.php';
 
     $infectionTypeID = $_POST['infectedTypeID'];
     $infectionTypeName = $_POST["infectedTypeName"];
+
+    $oldinfectionTypeID = $_POST['oldinfectedTypeID'];
    
 
     
@@ -10,7 +12,7 @@ require_once '../connectdb.php';
     // query
       $sql_query = "update infectedtype set infectedTypeID = '$infectionTypeID',infectedTypeName = '$infectionTypeName'
           
-          where infectedtype.infectedTypeID = '$infectionTypeID';";
+          where infectedtype.infectedTypeID = '$oldinfectionTypeID';";
         
         
       mysqli_query($conn,$sql_query);

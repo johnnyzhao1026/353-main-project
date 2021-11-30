@@ -1,6 +1,7 @@
 <?php require_once '../connectdb.php';
 
 if(isset($_GET["id"])){
+  $oldID = $_GET["id"];
   $ageGroupID = $_GET["id"];
   $sql_query = "select * from groupage where ageGroup = '$ageGroupID'";
   $ageGroup = mysqli_query($conn,$sql_query);
@@ -38,7 +39,8 @@ if(isset($_GET["id"])){
       <label> <b>max age</b> </label><br>
       <input type=text  name='max' required value="<?=$data['max']?>"> </input><br>
      
-     
+       <!-- key -->
+      <input type="hidden" name='oldID' required  value="<?=$oldID?>"> </input><br>
       <?php 
     }
     ?>

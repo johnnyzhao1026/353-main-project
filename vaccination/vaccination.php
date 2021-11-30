@@ -10,7 +10,7 @@ include_once '../connectdb.php';
 </head>
 <body>
 
-<h2>Public Health Facility</h2>
+<h2>Vaccination Records</h2>
 
 <h3> <a href="../vaccination/create.php">Create</a></h3>
 <table border="1" cellspacing="0">

@@ -71,7 +71,7 @@
 
 
 <dt> <b ><a> 7.Province</a></b> </dt>
-<a  href="./province/province.php" class="btn-danger"> Function: Create/Delete/Edit/Display</a>
+<a  href="./province/province.php" class="btn-danger">Display</a>
 <br>
   <br>
 
@@ -141,7 +141,7 @@
  <br>
 
 <dt> <b > 19.Give a detailed report of all the facilities in the city of Montréal.</b> </dt>
-    <a href="./query19.php" class="btn-danger">Give</a>
+    <a href="./query19.php" class="btn-danger">Report</a>
 <br>
  
 <br>

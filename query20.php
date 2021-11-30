@@ -10,9 +10,10 @@ if(isset($_POST['personID'])){
 
   $personID = $_POST['personID'];
   
-  $sql_query = "select VaccinationFacility.name , vaccinationFacility.address, appointmentinformation.date,appointmentinformation.time
-                from VaccinationFacility,appointmentinformation
-                where appointmentinformation.personID = $personID and appointmentinformation.facilityID = VaccinationFacility.facilityID
+  $sql_query = "select person.firstName,person.lastName,person.dateOfBirth, VaccinationFacility.name,vaccinationFacility.address, appointmentinformation.date,appointmentinformation.time
+                from VaccinationFacility,appointmentinformation,person
+                where appointmentinformation.personID = $personID and appointmentinformation.facilityID = VaccinationFacility.facilityID and
+                person.personID = $personID
                ";
 
   $sql_query_infectedhistory ="select * 
@@ -24,7 +25,7 @@ if(isset($_POST['personID'])){
   from vaccinatedhistory
   where vaccinatedhistory.personID = $personID ;";                
   
-  $facilityresult = mysqli_query($conn,$sql_query);
+  $bookingresult = mysqli_query($conn,$sql_query);
   $infectedhistory = mysqli_query($conn,$sql_query_infectedhistory);
   $vaccinatedhistory = mysqli_query($conn,$sql_query_vaccinatedhistory);
 
@@ -51,8 +52,10 @@ if(isset($_POST['personID'])){
   <!-- facility and appointment info -->
   <h4>Appointment Information</h4>
 <table border="1" cellspacing="0">
-  <tr>
-    
+  <tr style="background-color:lightgray;" align="center">
+  <td>First Name</td>
+  <td>Last Name</td>
+  <td>DOB</td>
   <td>facility name</td>
   <td>facility address</td>
   <td>appointment date</td>
@@ -62,11 +65,14 @@ if(isset($_POST['personID'])){
 
 <?php
 
-  while($data = mysqli_fetch_array($facilityresult))
+  while($data = mysqli_fetch_array($bookingresult))
 {
 ?>
   <tr>
-
+  <td><?php echo $data['firstName']; ?></td>
+  <td><?php echo $data['lastName']; ?></td>
+  <td><?php echo $data['dateOfBirth']; ?></td>
+  
   <td><?php echo $data['name']; ?></td>
   <td><?php echo $data['address']; ?></td>
   <td><?php echo $data['date']; ?></td>

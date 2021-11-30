@@ -5,13 +5,13 @@ require_once '../connectdb.php';
     $approvedDate = $_POST["approvedDate"];
     $status = $_POST["status"];
     $dateOfSuspension = $_POST["dateOfSuspension"];
-
+    $oldTypeName = $_POST['oldTypeName'];
     
 
     // query
       $sql_query = "update vaccination set typeName = '$typeName',approvedDate = '$approvedDate',status = '$status',dateOfSuspension = '$dateOfSuspension'
           
-          where vaccination.typeName = '$typeName';";
+          where vaccination.typeName = '$oldTypeName';";
         
         
       mysqli_query($conn,$sql_query);

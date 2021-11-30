@@ -1,73 +1,51 @@
+<?php require_once '../connectdb.php';
 
-<?php require_once '../database.php';
-
-$statement = $conn->prepare("select id, province, 
-groupID from main.province as province where province.id = :id");
-$statement->bindParam(":id",$_GET["id"]);
-$statement->execute();
-$province = $statement->fetch(PDO::FETCH_ASSOC);
-
-
-
-if (isset($_POST["id"])&&isset($_POST["province"])&&isset($_POST["groupID"])
-    ) {
-
-    $statement = $conn->prepare("update main.province set province = :province,groupID = :groupID where 
-    id = :id;"
-   );
-    
-
-$statement->bindParam(':id', $_POST["id"]);
-$statement->bindParam(':province', $_POST["province"]);
-$statement->bindParam(':groupID', $_POST["groupID"]);
+if(isset($_GET["id"])){
+  $oldprovinceID = $_GET["id"];
+  $provinceID = $_GET["id"];
+  $sql_query = "select * from province where provinceID = '$provinceID'";
+  $province = mysqli_query($conn,$sql_query);
+}
 
 
-
-
-if($statement->execute()) {
-    header("Location: .");}
-    else{
-    header("Location: ./edit.php?id=".$_POST["id"]);
-
-    }
-
-
-   }
 
 ?>
-
-
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>edit Province</title>
 </head>
 <body>
 
-<h1>Edit person</h1>
+<h1>Edit province</h1>
     
-<form action ="./edit.php" method ="post">
+<form action ="./updateProvince.php" method ="post">
 
-  
-  <label> <b>ID</b> </label><br>
-  <input type=text placeholder="please enter id..." name='id' id="id" value="<?=$province["id"]?>"> </input><br>
+<?php
+    while($data = mysqli_fetch_array($province))
+    { ?>
+  <label> <b>Province ID</b> </label><br>
+  <input type=text placeholder="please enter id..." name='provinceID'required value="<?=$data["provinceID"]?>"> </input><br>
 
   <label> <b>Province</b> </label><br>
-  <input type=text placeholder="please enter province" name='province' required id="province" value="<?=$province["province"]?>"> </input><br>
+  <input type=text placeholder="please enter province" name='provinceName' required  value="<?=$data["provinceName"]?>"> </input><br>
 
-  <label> <b>Group ID</b> </label><br>
-  <input type=text placeholder="please enter group ID..." name='groupID' required id="groupID" value="<?=$province["groupID"]?>"> </input><br>
+  <label> <b>Age Group</b> </label><br>
+  <input type=text placeholder="please enter group ID..." name='allowedAgeGroup' required  value="<?=$data["allowedAgeGroup"]?>"> </input><br>
 
-  
+  <!-- key -->
+  <input type="hidden" name='oldID' required  value="<?=$oldprovinceID?>"> </input><br>
+  <?php 
+    }
+    ?>
 
 <button type="submit">Update</button>
 </form>
 
 
-<a href="./">Back to main page</a>
+<a href="./province.php">Back to province page</a>
 </body>
 </html>

@@ -38,6 +38,8 @@ if(isset($_GET["id"])){
       <label> <b>Infected Type Name</b> </label><br>
       <input type=text  name='infectedTypeName' required value="<?=$data['infectedTypeName']?>"> </input><br>
      
+
+      <input type=hidden name='oldinfectedTypeID' required value="<?=$data['infectedTypeID']?>"> </input><br>
       <?php 
     }
     ?>

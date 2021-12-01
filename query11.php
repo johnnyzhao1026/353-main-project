@@ -1,59 +1,86 @@
-
 <?php
 
-$db = mysqli_connect("localhost:3316","root","","main");
+// connect to db
+include_once 'connectdb.php';
 
-if(!$db)
-{
-    die("Connection failed: " . mysqli_connect_error());
+  
+  $sql_query = "SELECT AppointmentInformation.facilityID, AppointmentInformation.personID, AppointmentInformation.vaccinationType, 
+  AppointmentInformation.date, AppointmentInformation.time, 
+  AppointmentInformation.timeTo,Person.firstName,Avaliablity.avaliableSpot
+  FROM AppointmentInformation, Avaliablity, PublicHealthWorker, VaccinationFacility, Person, HealthWorkerFacilityID
+  WHERE AppointmentInformation.facilityID = Avaliablity.facilityID 
+  AND AppointmentInformation.time = Avaliablity.avaliableTimeFrom AND AppointmentInformation.timeTo = Avaliablity.avaliableTimeTo 
+  AND Avaliablity.facilityWorkerID = HealthWorkerFacilityID.facilityWorkerID AND HealthWorkerFacilityID.personID = PublicHealthWorker.personID 
+  AND PublicHealthWorker.personID = Person.personID";
+
+   
+
+  $result = mysqli_query($conn,$sql_query);
+
+if($result){
+  echo "data found";
 }
+else {echo "no data matched";
+      die;
+}
+
+  
 
 ?>
 
 <!DOCTYPE html> 
 <html>
 <head>
-  <title>Query 11</title>
+  <title>Query 12</title>
 </head>
+
 <body>
 
 <h2>Query 11</h2>
 
-<h3>  Perform a vaccine to a person.</h3>
+<h3> Display the bookings and the availability of spots for vaccination for a given facility from a given period of time to a given period of time.</h3>
 
-<table border="2">
-  <tr>
-  <td>person ID</td>
-  <td>facility name</td>
-    <td>Employee ID</td>
-    
+
+  <!-- Facilities info in Montreal -->
+  <h4>Booking information</h4>
+<table border="1" cellspacing="0">
+  <tr style="background-color:lightgray;" align="center">
+  <td>Facility ID</td>
+  <td>Person ID</td>
+  <td>Vaccination Type</td>
+  <td>Date</td>
+  <td>From</td>
+  <td>To</td>
+  <td>Facility Worker Name</td>
+  <td>Avaliable Spot</td>
+
   </tr>
 
 <?php
 
-//include "dbConn.php"; // Using database connection file here
-
-$records = mysqli_query($db,"select person.id, facility.facilityName, given.EID from main.person, main.facility, main.given, main.vaccination, main.employee where
-person.id = given.id && given.EID = employee.EID && given.g_id = vaccination.id && vaccination.status= 'safe'&& given.facility_id = facility.id"); // fetch data from database
-
-while($data = mysqli_fetch_array($records))
+  while($data = mysqli_fetch_array($result))
 {
 ?>
   <tr>
-    <td><?php echo $data['id']; ?></td>
-    <td><?php echo $data['facilityName']; ?></td>
-    <td><?php echo $data['EID']; ?></td>    
-   
-    
+  <td><?php echo $data['facilityID']; ?></td>
+  <td><?php echo $data['personID']; ?></td>
+  <td><?php echo $data['vaccinationType']; ?></td>
+  
+  <td><?php echo $data['date']; ?></td>
+  <td><?php echo $data['time']; ?></td>
+  <td><?php echo $data['timeTo']; ?></td>
+  <td><?php echo $data['firstName']; ?></td>
+  <td><?php echo $data['avaliableSpot']; ?></td>
     
   </tr>	
 <?php
 }
 ?>
 </table>
+<br>
 
+
+
+<h3><a href="./index.php">Back to main page</a></h3>
 </body>
 </html>
-
-
-

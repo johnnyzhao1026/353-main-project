@@ -1,12 +1,27 @@
-
 <?php
 
-$db = mysqli_connect("localhost:3316","root","","main");
+// connect to db
+include_once 'connectdb.php';
 
-if(!$db)
-{
-    die("Connection failed: " . mysqli_connect_error());
+  
+  $sql_query = "SELECT Avaliablity.avaliableSpot, Avaliablity.avaliableTimeFrom, Avaliablity.date AS ava_date, 
+  Province.provinceName AS province_name, VaccinationFacility.`name` AS facility_name
+  FROM Avaliablity, Province, VaccinationFacility
+  WHERE Avaliablity.facilityID = VaccinationFacility.facilityID 
+  AND VaccinationFacility.provinceID = Province.provinceID";
+
+   
+
+  $result = mysqli_query($conn,$sql_query);
+
+if($result){
+  echo "data found";
 }
+else {echo "no data matched";
+      die;
+}
+
+  
 
 ?>
 
@@ -15,63 +30,30 @@ if(!$db)
 <head>
   <title>Query 12</title>
 </head>
+
 <body>
 
 <h2>Query 12</h2>
 
-<h3> Get details of all the people who got vaccinated only one dose and are of
-group ages 1 to 3.</h3>
+<h3> Display the first available spot for vaccination in a given facility starting from a given date</h3>
 
-<table border="2">
-  <tr>
-    
-  <td>first name</td>
-    <td>last name</td>
-    <td>birthday</td>
-    <td>email</td>
-    <td>phone</td>
-    <td>date vaccinate</td>
-    <td>vaccination type</td>
-    <td>infect yes or no</td>
-    
-  </tr>
 
 <?php
 
-//include "dbConn.php"; // Using database connection file here
-
-$records = mysqli_query($db,"select DISTINCT person.first_name, person.last_name,person.birth, person.email, person.phone,
-given.date_vaccination, vaccination.type, infect.yorn from main.person, main.given, main.vaccination, main.infect,main.age,main.grouped where
-person.id = given.id  && given.g_id = vaccination.id && person.id = infect.id &&person.id = grouped.id &&given.dose_num = 1
-&& (grouped.g_groupID = 1 ||grouped.g_groupID = 2||grouped.g_groupID = 3 )"); // fetch data from database
-
-while($data = mysqli_fetch_array($records))
+  while($data = mysqli_fetch_array($result))
 {
 ?>
-  <tr>
-    <td><?php echo $data['first_name']; ?></td>
-    <td><?php echo $data['last_name']; ?></td>
-    <td><?php echo $data['birth']; ?></td>    
-    <td><?php echo $data['email']; ?></td>  
-    <td><?php echo $data['phone']; ?></td>  
-    <td><?php echo $data['date_vaccination']; ?></td>  
-    <td><?php echo $data['type']; ?></td>  
-    <td><?php echo $data['yorn']; ?></td>  
-    
-    
-  </tr>	
+
+  <p>First avaliable spot at <?php echo $data['province_name']; ?> <?php echo $data['facility_name']; ?> facility starting <?php echo $data['ava_date']; ?> is from <?php echo $data['avaliableTimeFrom']; ?></p>
+  	
 <?php
 }
 ?>
 </table>
+<br>
 
+
+
+<h3><a href="./index.php">Back to main page</a></h3>
 </body>
 </html>
-
-
-
-
-
-
-
-

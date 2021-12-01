@@ -1,12 +1,27 @@
 
 <?php
 
-$db = mysqli_connect("localhost:3316","root","","main");
+include_once 'connectdb.php';
 
-if(!$db)
-{
-    die("Connection failed: " . mysqli_connect_error());
+if(isset($_POST['date']) && isset($_POST['name'])) {
+
+
+    $date = $_POST['date2'];
+    $name = $_POST['name2'];
+
+    $sql_query = "SELECT Person.firstName,Person.lastName,PublicHealthWorker.jobTitle,PublicHealthWorker.startWorkDate,PublicHealthWorker.endWorkDate
+FROM VaccinationFacility,AppointmentInformation,Person,PublicHealthWorker
+WHERE VaccinationFacility.facilityID = AppointmentInformation.facilityID
+AND AppointmentInformation.personID = Person.personID
+AND PublicHealthWorker.personID = Person.personID
+AND $date > PublicHealthWorker.startWorkDate
+AND $date < PublicHealthWorker.endWorkDate
+AND $name = VaccinationFacility.name;";
+
+
+    $result1 = mysqli_query($conn, $sql_query);
 }
+?>
 
 ?>
 
@@ -24,9 +39,11 @@ if(!$db)
 <table border="2">
   <tr>
     
-  <td>facility province</td>
-    <td>vaccination type</td>
-    <td>total</td>
+
+      <td>first name</td>
+      <td>last name</td>
+      <td>job</td>
+
     
     
   </tr>
@@ -35,18 +52,15 @@ if(!$db)
 
 //include "dbConn.php"; // Using database connection file here
 
-$records = mysqli_query($db,"SELECT facility.province, vaccination.type AS vaccine_type,SUM(inventory.quantity)AS total
-FROM main.facility, main.vaccination, main.inventory where facility.id = inventory.facilityID && inventory.v_id= vaccination.id
-GROUP BY facility.province,inventory.v_id
-ORDER BY facility.province ASC, total DESC"); // fetch data from database
 
-while($data = mysqli_fetch_array($records))
+
+while($data = mysqli_fetch_array($result1))
 {
 ?>
   <tr>
-    <td><?php echo $data['province']; ?></td>
-    <td><?php echo $data['vaccine_type']; ?></td>
-    <td><?php echo $data['total']; ?></td>    
+    <td><?php echo $data['firstName']; ?></td>
+    <td><?php echo $data['lastName']; ?></td>
+    <td><?php echo $data['jobTitle']; ?></td>
     
     
     

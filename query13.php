@@ -1,13 +1,24 @@
 
 <?php
 
-$db = mysqli_connect("localhost:3316","root","","main");
+if(isset($_POST['date']) && isset($_POST['name'])) {
 
-if(!$db)
-{
-    die("Connection failed: " . mysqli_connect_error());
+
+    $date = $_POST['date'];
+    $name = $_POST['name'];
+
+    $sql_query = "SELECT PublicHealthWorker.facilityID,Person.firstName,Person.lastName,Person.email,PublicHealthWorker.salary
+FROM PublicHealthWorker,Person
+WHERE PublicHealthWorker.jobTitle = 'nurse'
+AND PublicHealthWorker.personID = Person.personID
+AND  PublicHealthWorker.startWorkDate < $date 
+AND  PublicHealthWorker.endWorkDate   > $date
+AND  VaccinationFacility.name = $name 
+ORDER BY PublicHealthWorker.salary DESC";
+
+
+    $result = mysqli_query($conn, $sql_query);
 }
-
 ?>
 
 <!DOCTYPE html> 
@@ -25,14 +36,13 @@ vaccinated at least two doses of different types of vaccines.</h3>
 <table border="2">
   <tr>
     
-  <td>first name</td>
+  <td>facility_id</td>
+      <td>first name</td>
     <td>last name</td>
-    <td>birthday</td>
+
     <td>email</td>
-    <td>phone</td>
-    <td>date vaccinate</td>
-    <td>vaccination type</td>
-    <td>infect yes or no</td>
+    <td>salary</td>
+
     
   </tr>
 
@@ -40,23 +50,15 @@ vaccinated at least two doses of different types of vaccines.</h3>
 
 //include "dbConn.php"; // Using database connection file here
 
-$records = mysqli_query($db,"select person.first_name, person.last_name,person.birth, person.email, person.phone,
-given.date_vaccination, vaccination.type, infect.yorn from main.person, main.given, main.vaccination, main.infect where
-person.id = given.id && given.id = infect.id && given.g_id = vaccination.id && person.city='Montreal'
-&& given.dose_num >= 2 "); // fetch data from database
-
-while($data = mysqli_fetch_array($records))
+while($data = mysqli_fetch_array($result))
 {
 ?>
   <tr>
-    <td><?php echo $data['first_name']; ?></td>
-    <td><?php echo $data['last_name']; ?></td>
-    <td><?php echo $data['birth']; ?></td>    
-    <td><?php echo $data['email']; ?></td>  
-    <td><?php echo $data['phone']; ?></td>  
-    <td><?php echo $data['date_vaccination']; ?></td>  
-    <td><?php echo $data['type']; ?></td>  
-    <td><?php echo $data['yorn']; ?></td>  
+    <td><?php echo $data['facilityID']; ?></td>
+    <td><?php echo $data['firstName']; ?></td>
+      <td><?php echo $data['lastName']; ?></td>
+    <td><?php echo $data['email']; ?></td>
+    <td><?php echo $data['salary']; ?></td>
     
     
   </tr>	

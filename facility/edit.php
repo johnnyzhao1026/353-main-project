@@ -1,101 +1,94 @@
+<?php require_once '../connectdb.php';
 
-<?php require_once '../database.php';
-
-$statement = $conn->prepare("select id, FacilityName,FacilityWebaddress,FacilityType,
-FacilityTelephone, FacilityAddress,province,managerID,inventory from main.facility as facility where facility.id = :id");
-$statement->bindParam(":id",$_GET["id"]);
-$statement->execute();
-$facility = $statement->fetch(PDO::FETCH_ASSOC);
-
-
-
-    if ( isset($_POST["FacilityName"])&&isset($_POST["FacilityWebaddress"])&&isset($_POST["FacilityType"])&&
-    isset($_POST["FacilityTelephone"]) &&isset($_POST["FacilityAddress"])&&isset($_POST["province"])&&
-    isset($_POST["managerID"])&&isset($_POST["inventory"]) &&isset($_POST["id"])  )
-    {
-
-    $statement = $conn->prepare("update main.facility set FacilityName = :FacilityName,FacilityWebaddress = :FacilityWebaddress,
-    FacilityType=:FacilityType,FacilityTelephone=:FacilityTelephone,FacilityAddress=:FacilityAddress,province=:province,
-    managerID=:managerID,inventory=:inventory where id = :id;"
-   );
-    
-
-$statement->bindParam(':FacilityName', $_POST["FacilityName"]);
-$statement->bindParam(':FacilityWebaddress', $_POST["FacilityWebaddress"]);
-$statement->bindParam(':FacilityType', $_POST["FacilityType"]);
-$statement->bindParam(':FacilityTelephone', $_POST["FacilityTelephone"]);
-$statement->bindParam(':FacilityAddress', $_POST["FacilityAddress"]);
-$statement->bindParam(':province', $_POST["province"]);
-$statement->bindParam(':managerID', $_POST["managerID"]);
-$statement->bindParam(':inventory', $_POST["inventory"]);
-$statement->bindParam(':id', $_POST["id"]);
+if(isset($_GET["id"])){
+  $oldID = $_GET["id"];
+  $facilityID = $_GET["id"];
+  $sql_query = "select * from VaccinationFacility where VaccinationFacility.facilityID = '$id'";
+  $facilityID = mysqli_query($conn,$sql_query);
+}
 
 
-if($statement->execute())
-    header("Location: .");
-    else
-    header("Location: ./edit.php?id=".$_POST["id"]);
-
-
-
-
-   }
 
 ?>
 
 
 
-<!DOCTYPE html>
-<html lang="en">
+
+
+<html>
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Edit Vaccination Facility</title>
 </head>
 <body>
-
-<h1>Edit facility</h1>
+<div><h1>Edit Vaccination Facility</h1>
     
-<form action ="../facility/edit.php" method ="post">
+    <form action ="./updateVaccinationFacility.php" method ="post">
+    
+    <?php
+    while($data = mysqli_fetch_array($facilityID))
+    { ?>
+    <label> <b>facilityID</b> </label><br>
+      <input type=text name='facilityID' required value="<?=$data['facilityID']?>"> </input><br>
+    
+    <label> <b>name</b> </label><br>
+      <input type=text name='name' required value="<?=$data['name']?>"> </input><br>
+    
+    <label> <b>address</b> </label><br>
+      <input type=text name='address' required value="<?=$data['address']?>"> </input><br>
+    
+    <label> <b>phoneNum</b> </label><br>
+      <input type=text name='phoneNum' required value="<?=$data['phoneNum']?>"> </input><br>
+    
+    <label> <b>website</b> </label><br>
+      <input type=text name='website' required value="<?=$data['website']?>"> </input><br>
+    
+    <label> <b>faclityType</b> </label><br>
+      <input type=text name='faclityType' required value="<?=$data['faclityType']?>"> </input><br>
+    
+    <label> <b>capacity</b> </label><br>
+      <input type=text name='capacity' required value="<?=$data['capacity']?>"> </input><br>
+    
+    <label> <b>city</b> </label><br>
+      <input type=text name='city' required value="<?=$data['city']?>"> </input><br>
+    
+    <label> <b>country</b> </label><br>
+      <input type=text name='country' required value="<?=$data['country']?>"> </input><br>
+    
+    <label> <b>provinceID</b> </label><br>
+      <input type=text name='provinceID' required value="<?=$data['provinceID']?>"> </input><br>
+    
+    <label> <b>normalDayStartTime</b> </label><br>
+      <input type=text name='normalDayStartTime' required value="<?=$data['normalDayStartTime']?>"> </input><br>
+    
+    <label> <b>normalDayEndTime</b> </label><br>
+      <input type=text name='normalDayEndTime' required value="<?=$data['normalDayEndTime']?>"> </input><br>
+    
+    <label> <b>specialDayStartTime</b> </label><br>
+      <input type=text name='specialDayStartTime' required value="<?=$data['specialDayStartTime']?>"> </input><br>
+    
+    <label> <b>specialDayEndTime</b> </label><br>
+      <input type=text name='specialDayEndTime' required value="<?=$data['specialDayEndTime']?>"> </input><br>
+    
+    <label> <b>acceptWalkInAppointment</b> </label><br>
+      <input type=text name='acceptWalkInAppointment' required value="<?=$data['acceptWalkInAppointment']?>"> </input><br>
+    
+       <!-- key -->
+      <input type="hidden" name='oldID' required  value="<?=$oldID?>"> </input><br>
+      <?php 
+    }
+    ?>
 
+    <button type="submit">Update</button>
+    </form>
+    <br>
+    
+    <a href="./employee.php">Back to age Records page</a>
+    </body>
+    
   
 
 
- 
-
-<label> <b>FacilityName</b> </label><br>
-<input type=text placeholder="please enter Facility Name" name='FacilityName' id="FacilityName" value="<?=$facility["FacilityName"]?>"> </input><br>
-
-  <label> <b>Facility Web address</b> </label><br>
-  <input type=text placeholder="please enter Facility Web address" name='FacilityWebaddress' required id="FacilityWebaddress" value="<?=$facility["FacilityWebaddress"]?>"> </input><br>
-
-  <label> <b>Facility Type</b> </label><br>
-  <input type=text placeholder="Facility Type" name='FacilityType' required id="FacilityType" value="<?=$facility["FacilityType"]?>"> </input><br>
-
-  <label> <b>Facility Telephone</b> </label><br>
-  <input type=text placeholder="please enter Facility Telephone number..." name='FacilityTelephone' required id="FacilityTelephone" value="<?=$facility["FacilityTelephone"]?>"> </input><br>
-
-  <label> <b>Facility Address</b> </label><br>
-  <input type=text placeholder="please enter Facility address..." name='FacilityAddress' required id="FacilityAddress" value="<?=$facility["FacilityAddress"]?>"> </input><br>
-
-  <label> <b>province</b> </label><br>
-  <input type=text placeholder="please enter province" name='province' required id="province" value="<?=$facility["province"]?>"> </input><br>
-
-  <label> <b>manager ID</b> </label><br>
-  <input type=text placeholder="please enter manager ID" name='managerID' required id="managerID" value="<?=$facility["managerID"]?>"> </input><br>
-
-<label> <b>inventory</b> </label><br>
-<input type=text placeholder="please enter inventory" name='inventory' required id="inventory" value="<?=$facility["inventory"]?>"> </input><br>
-
-
-  
-  <input type="hidden" name='id' required id="id" value="<?=$facility["id"]?>"> </input><br>
-
-<button type="submit">Update</button>
-</form>
-
-
-<a href="./">Back to main page</a>
-</body>
 </html>

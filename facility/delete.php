@@ -1,7 +1,18 @@
-<?php require_once '../database.php';
+<?php require_once '../connectdb.php';
 
-$statement = $conn->prepare("delete from main.facility where facility.id = :id; ");
-$statement->bindParam(":id",$_GET["id"]);
-$statement->execute();
-header("Location: .");
+if(isset($_GET["id"])){
+    $facilityID = $_GET["id"];
+
+    $sql_query = "Delete from VaccinationFacility where facilityID = '$facilityID'";
+   $result = mysqli_query($conn,$sql_query);
+
+
+    if ($result){
+        header("Location: ./facility.php");
+    }
+    else echo "delete failed";
+    
+}
+
+
 ?>

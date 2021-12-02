@@ -1,86 +1,62 @@
-
-<?php require_once '../database.php';
-
-if (isset($_POST["id"])&&  isset($_POST["FacilityName"])&&isset($_POST["FacilityWebaddress"])&&isset($_POST["FacilityType"])&&isset($_POST["FacilityTelephone"])
-   &&isset($_POST["FacilityAddress"])&&isset($_POST["province"])&&isset($_POST["managerID"])&&isset($_POST["inventory"])   ) 
-{
-
-    $facility = $conn->prepare("insert into main.facility (id,FacilityName,FacilityWebaddress,FacilityType,FacilityTelephone,FacilityAddress,
-    province,managerID,inventory)
-    values(:id,:FacilityName,:FacilityWebaddress,:FacilityType,:FacilityTelephone,:FacilityAddress,
-    :province,:managerID,:inventory);
-    ");
-
-$facility->bindParam(':id', $_POST["id"]);
-$facility->bindParam(':FacilityName', $_POST["FacilityName"]);
-$facility->bindParam(':FacilityWebaddress', $_POST["FacilityWebaddress"]);
-$facility->bindParam(':FacilityType', $_POST["FacilityType"]);
-$facility->bindParam(':FacilityTelephone', $_POST["FacilityTelephone"]);
-$facility->bindParam(':FacilityAddress', $_POST["FacilityAddress"]);
-$facility->bindParam(':province', $_POST["province"]);
-$facility->bindParam(':managerID', $_POST["managerID"]);
-$facility->bindParam(':inventory', $_POST["inventory"]);
-
-
-if($facility->execute())
-    header("Location: .");
-
-
-
-
-   }
-
-?>
-
-
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Create Vaccination Facility</title>
 </head>
 <body>
-
-<h1>Add Facility</h1>
+<h1>Add Vaccination Facility</h1>
     
-<form action ="./create.php" method ="post">
-
-  <label> <b>Facility ID</b> </label><br>
-  <input type=text placeholder="please enter Facility ID..." name='id' required> </input><br>
-
-  <label> <b>Facility Name</b> </label><br>
-  <input type=text placeholder="please enter Facility Name..." name='FacilityName' required> </input><br>
-
+<form action ="./postNewVaccinationFacility.php" method ="post">
+ 
+  <label> <b>facilityID</b> </label><br>
+  <input type=text placeholder="please enter facilityID" name='facilityID' required> </input><br>
   
-  <label> <b>Facility Web address</b> </label><br>
-  <input type=text placeholder="please enter Facility Web address..." name='FacilityWebaddress' required> </input><br>
-
-  <label> <b>Facility Type</b> </label><br>
-  <input type=text placeholder="please enter Facility Type..." name='FacilityType' required> </input><br>
-
-  <label> <b>Facility Telephone</b> </label><br>
-  <input type=text placeholder="please enter Facility Telephone..." name='FacilityTelephone' required> </input><br>
-
-  <label> <b>Facility Address</b> </label><br>
-  <input type=text placeholder="please enter Facility Address..." name='FacilityAddress' required> </input><br>
-
-  <label> <b>Province</b> </label><br>
-  <input type=text placeholder="please enter province<..." name='province' required> </input><br>
-
-  <label> <b>Manager ID</b> </label><br>
-  <input type=text placeholder="please enter manager ID..." name='managerID' required> </input><br>
-
-  <label> <b>Inventory</b> </label><br>
-  <input type=text placeholder="please enter Inventory..." name='inventory' required> </input><br>
-
+  <label> <b>name</b> </label><br>
+  <input type=text placeholder="please enter name" name='name' required> </input><br>
+  
+  <label> <b>address</b> </label><br>
+  <input type=text placeholder="please enter address" name='address' required> </input><br>
+  
+  <label> <b>phoneNum</b> </label><br>
+  <input type=text placeholder="please enter phoneNum" name='phoneNum' required> </input><br>
+  
+  <label> <b>website</b> </label><br>
+  <input type=text placeholder="please enter website" name='website' required> </input><br>
+  
+  <label> <b>faclityType</b> </label><br>
+  <input type=text placeholder="please enter faclityType" name='faclityType' required> </input><br>
+  
+  <label> <b>capacity</b> </label><br>
+  <input type=text placeholder="please enter capacity" name='capacity' required> </input><br>
+  
+  <label> <b>city</b> </label><br>
+  <input type=text placeholder="please enter city" name='city' required> </input><br>
+  
+  <label> <b>country</b> </label><br>
+  <input type=text placeholder="please enter country" name='country' required> </input><br>
+  
+  <label> <b>provinceID</b> </label><br>
+  <input type=text placeholder="please enter provinceID" name='provinceID' required> </input><br>
+  
+  <label> <b>norma Day Start Time</b> </label><br>
+  <input type=text placeholder="please enter normal Day Start Time" name='normalDayStartTime' required> </input><br>
+  
+  <label> <b>normal Day End Time</b> </label><br>
+  <input type=text placeholder="please enter normal Day End Time" name='normalDayEndTime' required> </input><br>
+  
+  <label> <b>special Day Start Time</b> </label><br>
+  <input type=text placeholder="please enter special Day Start Time" name='specialDayStartTime' required> </input><br>
+  
+  <label> <b>special Day End Time</b> </label><br>
+  <input type=text placeholder="please enter special Day End Time" name='specialDayEndTime' required> </input><br>
+  <label> <b>acceptWalkInAppointment</b> </label><br>
+  <input type=text placeholder="please enter is it accept walk in appointment" name='acceptWalkInAppointment' required> </input><br>
   
 <button type="submit">Add</button>
 </form>
-
-
-<a href="./">Back to main page</a>
+<a href="./facility.php">Back to Vaccination Facility record</a>
 </body>
 </html>

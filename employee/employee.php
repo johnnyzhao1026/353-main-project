@@ -1,81 +1,62 @@
 <?php
-
-$db = mysqli_connect("localhost:3316","root","","main");
-
-if(!$db)
-{
-    die("Connection failed: " . mysqli_connect_error());
-}
-
+// connect to db
+include_once '../connectdb.php';
 ?>
 
 <!DOCTYPE html> 
 <html>
 <head>
-  <title>Display all records from Database</title>
+  <title>Public Health Worker Records</title>
 </head>
 <body>
 
-<h2>Public Health Worker</h2>
+<h2>Public Health Worker Records</h2>
 
 <h3> <a href="../employee/create.php">Create</a></h3>
-
-<table border="2">
-        <tr>
-            <th>ID</th>
-            <th>EmpoyeeID</th>
-            <th>SSN</th>
-            <th>Medicad Card Number</th>
-            <th>First Name</th>
-            <th>Last Name</th>
-            <th>Data of Birth</th>
-            
-            <th>Telephone Number</th>
-            <th>Province</th>
-            <th>Address</th>
-            <th>City</th>
-            
-            <th>Postal Code</th>
-          
-            <th>E-mail</th>
-            <th>Citzenship</th>
+<table border="1" cellspacing="0">
+      
+        <tr style="background-color: lightgray;">
+            <td>jobID</td>
+            <td>jobTitle</td>
+            <td>startWorkDate</td>
+            <td>endWorkDate</td>
+            <td>facilityID</td>
+            <td>personID</td>
+            <td>salary</td>
             <th>Edit</th>
-            <th>Delete</th>
-            <th>Display</th>
+            <th>Delete</th>
+            
+
+           
+           
+            
         </tr>
         
-        <?php
+<?php
 
-//include "dbConn.php"; // Using database connection file here
-
-$records = mysqli_query($db,"select * from main.employee"); // fetch data from database
+$records = mysqli_query($conn,"select * from PublicHealthWorker"); // fetch data from database
 
 while($data = mysqli_fetch_array($records))
 {
 ?>
   <tr>
-    <td><?php echo $data['id']; ?></td>
-    <td><?php echo $data['EID']; ?></td>
-    <td><?php echo $data['SSN']; ?></td>    
-    <td><?php echo $data['medcard']; ?></td>  
-    <td><?php echo $data['first_name']; ?></td>  
-    <td><?php echo $data['last_name']; ?></td>  
-    <td><?php echo $data['birth']; ?></td>  
-    <td><?php echo $data['phone']; ?></td>  
-    <td><?php echo $data['province']; ?></td>  
-    <td><?php echo $data['address']; ?></td>  
-    <td><?php echo $data['city']; ?></td>  
-    <td><?php echo $data['postal_code']; ?></td>  
-    <td><?php echo $data['email']; ?></td>  
-    <td><?php echo $data['citizenship']; ?></td>  
-    <td><a href="../employee/edit.php?id=<?php echo $data['id']; ?>">Edit</a></td>
-    <td><a href="../employee/delete.php?id=<?php echo $data['id']; ?>">Delete</a></td>
-    <td><a href="../employee/display.php?id=<?php echo $data['id']; ?>">Display</a></td>
+    <td><?php echo $data['jobID']; ?></td>
+    <td><?php echo $data['jobTitle']; ?></td>
+    <td><?php echo $data['startWorkDate']; ?></td>
+    <td><?php echo $data['endWorkDate']; ?></td>
+    <td><?php echo $data['facilityID']; ?></td>
+    <td><?php echo $data['personID']; ?></td>
+    <td><?php echo $data['salary']; ?></td>
+      
+    <td><a href="../employee/edit.php?id=<?php echo $data['typeName']; ?>">Edit</a></td>
+    <td><a href="../employee/delete.php?id=<?php echo $data['typeName']; ?>">Delete</a></td>
+    <!-- <td><a href="../employee/display.php?id=<?php echo $data['typeName']; ?>">Display</a></td> -->
   </tr>	
 <?php
 }
 ?>
 </table>
 
+<a href="../index.php">Back to main page</a>
 </body>
 </html>

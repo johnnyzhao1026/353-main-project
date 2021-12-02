@@ -11,7 +11,7 @@ WHERE AppointmentInformation.personID =  Person.personID" ;
 
 
 $result = mysqli_query($conn,$sql_query);
-if($result){
+if(!$result){
     echo "data found";
 }
 else {

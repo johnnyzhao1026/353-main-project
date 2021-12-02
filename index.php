@@ -17,7 +17,7 @@
 <head>
     <title>mnc353_2</title>
     <h1>mnc353_2 team<h1>
-</head>
+</h1>
 
 <body>
 
@@ -106,18 +106,35 @@
 <br>
   
 
-  <dt> <b > 13.For a given facility and on a given date, display the Nurses that work for the facility but are not assigned to the facility on the specified date</b> </dt>
-    <a href="./query13.php" class="btn-danger">List</a>
+  <div><dt> <b > 13.For a given facility and on a given date, display the Nurses that work for the facility but are not assigned to the facility on the specified date</b> </dt>
+    <form action="./query13.php" method = "post">
+
+        <input type="date" placeholder="please enter date" name = "date" required>
+        <input type="text" placeholder="please enter name of facility " name = "name" required>
+        <button type="submit">Search</button>
+    </form>
+  </div>
 <br>
  <br>
   
-  <dt> <b > 14.For a given date, display all the facilities that do not have any nurse scheduled to work at the facility.</b> </dt>
-    <a href="./query14.php" class="btn-danger">List</a>
+  <div><dt> <b > 14.For a given date, display all the facilities that do not have any nurse scheduled to work at the facility.</b> </dt>
+      <form action="./query14.php" method = "post">
+
+          <input type="date" placeholder="please enter date" name = "date3" required>
+          <button type="submit">Search</button>
+      </form>
+  </div>
 <br>
  <br>
 
- <dt> <b > 15.For a given facility and on a given date, display the schedule for the facility.</b> </dt>
-    <a href="./query15.php" class="btn-danger">Give</a>
+ <div><dt> <b > 15.For a given facility and on a given date, display the schedule for the facility.</b> </dt>
+     <form action="./query15.php" method = "post">
+
+         <input type="date" placeholder="please enter date" name = "date2" required>
+         <input type="text" placeholder="please enter name of facility " name = "name2" required>
+         <button type="submit">Search</button>
+     </form>
+ </div>
 <br>
  <br>
 

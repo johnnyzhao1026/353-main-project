@@ -1,11 +1,39 @@
 
 <?php
 
-$db = mysqli_connect("localhost:3316","root","","main");
+include_once 'connectdb.php';
 
-if(!$db)
-{
-    die("Connection failed: " . mysqli_connect_error());
+if(isset($_POST['date3']) ) {
+
+
+    $date = $_POST['date3'];
+
+
+    $sql_query = "SELECT VaccinationFacility.name,VaccinationFacility.address,
+       VaccinationFacility.phoneNum,VaccinationFacility.capacity,
+       timediff(VaccinationFacility.normalDayStartTime,VaccinationFacility.normalDayENdTime) as operatingHours
+FROM VaccinationFacility left join
+(SELECT VaccinationFacility.name,COUNT(*)
+FROM VaccinationFacility,PublicHealthWorker,AppointmentInformation,Person
+WHERE VaccinationFacility.facilityID = AppointmentInformation.facilityID
+AND AppointmentInformation.personID = Person.personID
+AND Person.personID = PublicHealthWorker.personID
+AND PublicHealthWorker.jobTitle = 'nurse'
+GROUP BY VaccinationFacility.name) b ON VaccinationFacility.name!=b.name
+GROUP BY VaccinationFacility.name;
+";
+
+
+    $result = mysqli_query($conn, $sql_query);
+
+    if($result==null){
+        echo "data found";
+    }
+    else {
+        echo "no data matched";
+        die;
+    }
+
 }
 
 ?>
@@ -25,39 +53,24 @@ least two different variants of Covid-19</h3>
 <table border="2">
   <tr>
     
-  <td>first name</td>
-    <td>last name</td>
-    <td>birthday</td>
-    <td>email</td>
-    <td>phone</td>
-    <td>date vaccinate</td>
-    <td>vaccination type</td>
-    <td>infect yes or no</td>
-    
+  <td>name</td>
+    <td>address</td>
+    <td>phoneNum</td>
+    <td>capacity</td>
+    <td>operating hours</td>
   </tr>
-
 <?php
 
-//include "dbConn.php"; // Using database connection file here
-
-$records = mysqli_query($db,"select person.first_name, person.last_name,person.birth, person.email, person.phone,
-given.date_vaccination, vaccination.type, infect.yorn from main.person, main.given, main.vaccination,main.infect 
-where person.id = given.id && given.id = infect.id && given.g_id = vaccination.id && given.dose_num >0"); // fetch data from database
-
-while($data = mysqli_fetch_array($records))
+while($data = mysqli_fetch_array($result))
 {
 ?>
   <tr>
-    <td><?php echo $data['first_name']; ?></td>
-    <td><?php echo $data['last_name']; ?></td>
-    <td><?php echo $data['birth']; ?></td>    
-    <td><?php echo $data['email']; ?></td>  
-    <td><?php echo $data['phone']; ?></td>  
-    <td><?php echo $data['date_vaccination']; ?></td>  
-    <td><?php echo $data['type']; ?></td>  
-    <td><?php echo $data['yorn']; ?></td>  
-    
-    
+    <td><?php echo $data['name']; ?></td>
+    <td><?php echo $data['address']; ?></td>
+    <td><?php echo $data['phoneNum']; ?></td>
+    <td><?php echo $data['capacity']; ?></td>
+    <td><?php echo $data['operatingHours']; ?></td>
+
   </tr>	
 <?php
 }

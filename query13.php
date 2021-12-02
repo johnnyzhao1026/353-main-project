@@ -1,20 +1,20 @@
 
 <?php
+include_once 'connectdb.php';
 
-if(isset($_POST['date']) && isset($_POST['name'])) {
+if( isset($_POST['name'])) {
 
 
     $date = $_POST['date'];
     $name = $_POST['name'];
 
     $sql_query = "SELECT PublicHealthWorker.facilityID,Person.firstName,Person.lastName,Person.email,PublicHealthWorker.salary
-FROM PublicHealthWorker,Person
+FROM PublicHealthWorker,Person,VaccinationFacility
 WHERE PublicHealthWorker.jobTitle = 'nurse'
 AND PublicHealthWorker.personID = Person.personID
-AND  PublicHealthWorker.startWorkDate < $date 
-AND  PublicHealthWorker.endWorkDate   > $date
-AND  VaccinationFacility.name = $name 
-ORDER BY PublicHealthWorker.salary DESC";
+AND VaccinationFacility.facilityID = PublicHealthWorker.facilityID
+AND VaccinationFacility.name = '$name'
+ORDER BY PublicHealthWorker.salary DESC;";
 
 
     $result = mysqli_query($conn, $sql_query);

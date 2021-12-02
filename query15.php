@@ -3,7 +3,7 @@
 
 include_once 'connectdb.php';
 
-if(isset($_POST['date']) && isset($_POST['name'])) {
+if(isset($_POST['date2']) && isset($_POST['name2'])) {
 
 
     $date = $_POST['date2'];
@@ -14,16 +14,24 @@ FROM VaccinationFacility,AppointmentInformation,Person,PublicHealthWorker
 WHERE VaccinationFacility.facilityID = AppointmentInformation.facilityID
 AND AppointmentInformation.personID = Person.personID
 AND PublicHealthWorker.personID = Person.personID
-AND $date > PublicHealthWorker.startWorkDate
-AND $date < PublicHealthWorker.endWorkDate
-AND $name = VaccinationFacility.name;";
+AND VaccinationFacility.name = '$name';";
 
 
-    $result1 = mysqli_query($conn, $sql_query);
+    $result = mysqli_query($conn, $sql_query);
+
+    if($result==null){
+        echo "data found";
+    }
+    else {
+        echo "no data matched";
+        die;
+    }
+
 }
 ?>
 
-?>
+
+
 
 <!DOCTYPE html> 
 <html>
@@ -43,27 +51,23 @@ AND $name = VaccinationFacility.name;";
       <td>first name</td>
       <td>last name</td>
       <td>job</td>
-
-    
+      <td>start date</td>
+      <td>end date</td>
     
   </tr>
 
 <?php
 
-//include "dbConn.php"; // Using database connection file here
 
-
-
-while($data = mysqli_fetch_array($result1))
+while($data = mysqli_fetch_array($result))
 {
 ?>
   <tr>
     <td><?php echo $data['firstName']; ?></td>
     <td><?php echo $data['lastName']; ?></td>
     <td><?php echo $data['jobTitle']; ?></td>
-    
-    
-    
+      <td><?php echo $data['startWorkDate']; ?></td>
+      <td><?php echo $data['endWorkDate']; ?></td>
   </tr>	
 <?php
 }

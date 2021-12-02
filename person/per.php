@@ -36,8 +36,8 @@ include_once '../connectdb.php';
     <td>issued date of medical card</td>
     <td>exp date of medical card</td>
     <td>isRegistered</td>
-    <td>Delete</td>
     <td>Edit</td>
+    <td>Delete</td>
     <td>Display</td>
 
 

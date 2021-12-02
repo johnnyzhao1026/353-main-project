@@ -14,6 +14,7 @@ include_once 'connectdb.php';
   emp.total_workers as total_emp , 
   does.total_does as total_Received_Does,
   bookings.total_bookings as total_bookings
+  
 
 FROM vaccinationfacility
 

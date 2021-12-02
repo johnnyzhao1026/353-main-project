@@ -1,7 +1,7 @@
 <?php
 
 session_start();
-$dbServername = "localhost";
+$dbServername = "localHost";
 $dbUsername = "root";
 $dbPassword = "";
 $dbName = "353db";

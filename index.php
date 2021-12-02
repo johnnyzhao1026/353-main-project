@@ -84,13 +84,13 @@
 
 
   <dt> <b > 9.Apppintment for vaccination </b> </dt>
-  <a  href="./query9.php" class="btn-danger">Function: Create/Delete/Edit/Display</a>
+  <a  href="./Book/book.php" class="btn-danger">Function: Create/Delete/Edit/Display</a>
 
 <br>
  <br>
 
  <dt> <b > 10.Assignment for a public health worker </b> </dt>
- <a href="./query10.php" class="btn-danger">Function: Create/Delete/Edit/Display</a>
+ <a href="./Assignmeng/assignment.php" class="btn-danger">Function: Create/Delete/Edit/Display</a>
 <br>
  <br>
 

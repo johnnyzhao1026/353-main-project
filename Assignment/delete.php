@@ -8,7 +8,7 @@ if(isset($_GET["deleteId"])){
    $result = mysqli_query($conn,$sql_query);
 
     if ($result){
-        header("Location: ./book.php");
+        header("Location: ./assignment.php");
     }
     else echo "delete failed";
 }

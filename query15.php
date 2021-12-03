@@ -3,10 +3,8 @@
 
 include_once 'connectdb.php';
 
-if(isset($_POST['date2']) && isset($_POST['name2'])) {
+if(isset($_POST['name2'])) {
 
-
-    $date = $_POST['date2'];
     $name = $_POST['name2'];
 
     $sql_query = "SELECT Person.firstName,Person.lastName,PublicHealthWorker.jobTitle,PublicHealthWorker.startWorkDate,PublicHealthWorker.endWorkDate
@@ -19,7 +17,7 @@ AND VaccinationFacility.name = '$name';";
 
     $result = mysqli_query($conn, $sql_query);
 
-    if($result==null){
+    if($result){
         echo "data found";
     }
     else {
@@ -42,7 +40,7 @@ AND VaccinationFacility.name = '$name';";
 
 <h2>Query 15</h2>
 
-<h3> Give a report of the inventory of vaccines in each province.</h3>
+<h3> For a given facility and on a given date, display the schedule for the facility.</h3>
 
 <table border="2">
   <tr>

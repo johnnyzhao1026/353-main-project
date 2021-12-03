@@ -8,7 +8,7 @@ if( isset($_POST['name'])) {
     $date = $_POST['date'];
     $name = $_POST['name'];
 
-    $sql_query = "SELECT PublicHealthWorker.facilityID,Person.firstName,Person.lastName,Person.email,PublicHealthWorker.salary
+    $sql_query = "SELECT VaccinationFacility.name,Person.firstName,Person.lastName,Person.email,PublicHealthWorker.salary
 FROM PublicHealthWorker,Person,VaccinationFacility
 WHERE PublicHealthWorker.jobTitle = 'nurse'
 AND PublicHealthWorker.personID = Person.personID
@@ -18,6 +18,14 @@ ORDER BY PublicHealthWorker.salary DESC;";
 
 
     $result = mysqli_query($conn, $sql_query);
+
+    if($result){
+        echo "data found";
+    }
+    else {
+        echo "no data matched";
+        die;
+    }
 }
 ?>
 
@@ -30,13 +38,13 @@ ORDER BY PublicHealthWorker.salary DESC;";
 
 <h2>Query 13</h2>
 
-<h3> Get details of all the people who live in the city of Montréal and who got
-vaccinated at least two doses of different types of vaccines.</h3>
+<h3> 3. For a given facility and on a given date, display the Nurses that work for the
+    facility but are not assigned to the facility on the specified date.</h3>
 
 <table border="2">
   <tr>
     
-  <td>facility_id</td>
+  <td>facility</td>
       <td>first name</td>
     <td>last name</td>
 
@@ -54,7 +62,7 @@ while($data = mysqli_fetch_array($result))
 {
 ?>
   <tr>
-    <td><?php echo $data['facilityID']; ?></td>
+    <td><?php echo $data['name']; ?></td>
     <td><?php echo $data['firstName']; ?></td>
       <td><?php echo $data['lastName']; ?></td>
     <td><?php echo $data['email']; ?></td>

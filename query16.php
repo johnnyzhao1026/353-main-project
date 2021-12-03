@@ -11,7 +11,7 @@ WHERE AppointmentInformation.personID =  Person.personID" ;
 
 
 $result = mysqli_query($conn,$sql_query);
-if(!$result){
+if($result){
     echo "data found";
 }
 else {
@@ -53,6 +53,7 @@ while($data = mysqli_fetch_array($result))
 {
 ?>
   <tr>
+      <td><?php echo $data['firstName']; ?></td>
     <td><?php echo $data['firstName']; ?></td>
     <td><?php echo $data['lastName']; ?></td>
     <td><?php echo $data['middleInitial']; ?></td>

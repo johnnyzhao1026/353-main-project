@@ -26,7 +26,7 @@ GROUP BY VaccinationFacility.name;
 
     $result = mysqli_query($conn, $sql_query);
 
-    if($result==null){
+    if($result){
         echo "data found";
     }
     else {
@@ -47,8 +47,8 @@ GROUP BY VaccinationFacility.name;
 
 <h2>Query 14</h2>
 
-<h3>  Get details of all the people who got vaccinated and have been infected with at
-least two different variants of Covid-19</h3>
+<h3>  For a given date, display all the facilities that do not have any nurse scheduled
+    to work at the facility. </h3>
 
 <table border="2">
   <tr>

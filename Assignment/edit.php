@@ -41,8 +41,6 @@ if(isset($_GET["id"])){
      
       <label> <b>facilityID</b> </label><br>
       <input type=text placeholder="please enter your facility ID"  name='facilityID' required value="<?=$data['facilityID']?>"> </input><br>
-      
-
      <?php 
     }
     ?>

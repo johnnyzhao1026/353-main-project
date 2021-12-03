@@ -4,8 +4,8 @@ require_once '../connectdb.php';
 $facilityName = $_POST['facilityName'];
 $personID = $_POST['personID'];
 $jobTitle = $_POST['jobTitle'];
-$startDate = $_POST['startDate'];
-$endtDate = $_POST['endtDate'];
+$startWorkDate = $_POST['startWorkDate'];
+$endWorkDate = $_POST['endWorkDate'];
 $facilityID = $_POST['facilityID'];
     
 
@@ -14,4 +14,6 @@ $facilityID = $_POST['facilityID'];
       = $jobTitle, startWorkDate = $startWorkDate, endWorkDate = $endWorkDate, facilityID = $facilityID
       WHERE Assignment.personID = '$personID'";       
       mysqli_query($conn,$sql_query);
+
+      header("Location: ./assignment.php?create=success");
 ?>

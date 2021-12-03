@@ -1,39 +1,36 @@
 <?php
 
-// connect to db
 include_once 'connectdb.php';
 
-  
-  $sql_query = "SELECT AppointmentInformation.facilityID, AppointmentInformation.personID, AppointmentInformation.vaccinationType, 
-  AppointmentInformation.date, AppointmentInformation.time, 
-  AppointmentInformation.timeTo,Person.firstName,Avaliablity.avaliableSpot
-  FROM AppointmentInformation, Avaliablity, PublicHealthWorker, VaccinationFacility, Person, HealthWorkerFacilityID
-  WHERE AppointmentInformation.facilityID = Avaliablity.facilityID 
-  AND AppointmentInformation.time = Avaliablity.avaliableTimeFrom AND AppointmentInformation.timeTo = Avaliablity.avaliableTimeTo 
-  AND Avaliablity.facilityWorkerID = HealthWorkerFacilityID.facilityWorkerID AND HealthWorkerFacilityID.personID = PublicHealthWorker.personID 
-  AND PublicHealthWorker.personID = Person.personID";
 
-   
+    $sql_query = "SELECT AppointmentInformation.facilityID, AppointmentInformation.personID, AppointmentInformation.vaccinationType, 
+    AppointmentInformation.date, AppointmentInformation.time, 
+    AppointmentInformation.timeTo,Person.firstName,Avaliablity.avaliableSpot
+    FROM AppointmentInformation, Avaliablity, PublicHealthWorker, VaccinationFacility, Person, HealthWorkerFacilityID
+    WHERE AppointmentInformation.facilityID = Avaliablity.facilityID 
+    AND AppointmentInformation.time = Avaliablity.avaliableTimeFrom AND AppointmentInformation.timeTo = Avaliablity.avaliableTimeTo 
+    AND Avaliablity.facilityWorkerID = HealthWorkerFacilityID.facilityWorkerID AND HealthWorkerFacilityID.personID = PublicHealthWorker.personID 
+    AND PublicHealthWorker.personID = Person.personID
+  GROUP BY Person.firstName";
+    $result = mysqli_query($conn, $sql_query);
 
-  $result = mysqli_query($conn,$sql_query);
+    if($result){
+        echo "data found";
+    }
+    else {
+        echo "no data matched";
+        die;
+    }
 
-if($result){
-  echo "data found";
-}
-else {echo "no data matched";
-      die;
-}
 
-  
 
 ?>
 
 <!DOCTYPE html> 
 <html>
 <head>
-  <title>Query 12</title>
+  <title>Query 11</title>
 </head>
-
 <body>
 
 <h2>Query 11</h2>
@@ -65,7 +62,6 @@ else {echo "no data matched";
   <td><?php echo $data['facilityID']; ?></td>
   <td><?php echo $data['personID']; ?></td>
   <td><?php echo $data['vaccinationType']; ?></td>
-  
   <td><?php echo $data['date']; ?></td>
   <td><?php echo $data['time']; ?></td>
   <td><?php echo $data['timeTo']; ?></td>
@@ -79,8 +75,19 @@ else {echo "no data matched";
 </table>
 <br>
 
-
-
-<h3><a href="./index.php">Back to main page</a></h3>
 </body>
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+

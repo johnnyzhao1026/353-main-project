@@ -63,8 +63,8 @@ while($data = mysqli_fetch_array($records))
     <td><?php echo $data['specialDayStartTime']; ?></td>
     <td><?php echo $data['specialDayEndTime']; ?></td>
     <td><?php echo $data['acceptWalkInAppointment']; ?></td>
-    <td><a href="../facility/edit.php?id=<?php echo $data['typeName']; ?>">Edit</a></td>
-    <td><a href="../facility/delete.php?id=<?php echo $data['typeName']; ?>">Delete</a></td>
+    <td><a href="../facility/edit.php?id=<?php echo $data['facilityID']; ?>">Edit</a></td>
+    <td><a href="../facility/delete.php?id=<?php echo $data['facilityID']; ?>">Delete</a></td>
     <!-- <td><a href="../facility/display.php?id=<?php echo $data['typeName']; ?>">Display</a></td> -->
   </tr>	
 <?php

@@ -48,8 +48,8 @@ while($data = mysqli_fetch_array($records))
     <td><?php echo $data['personID']; ?></td>
     <td><?php echo $data['salary']; ?></td>
       
-    <td><a href="../employee/edit.php?id=<?php echo $data['typeName']; ?>">Edit</a></td>
-    <td><a href="../employee/delete.php?id=<?php echo $data['typeName']; ?>">Delete</a></td>
+    <td><a href="../employee/edit.php?id=<?php echo $data['jobID']; ?>">Edit</a></td>
+    <td><a href="../employee/delete.php?id=<?php echo $data['jobID']; ?>">Delete</a></td>
     <!-- <td><a href="../employee/display.php?id=<?php echo $data['typeName']; ?>">Display</a></td> -->
   </tr>	
 <?php

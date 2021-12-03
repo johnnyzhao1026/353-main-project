@@ -3,7 +3,7 @@
 if(isset($_GET["id"])){
   $oldID = $_GET["id"];
   $facilityID = $_GET["id"];
-  $sql_query = "select * from VaccinationFacility where VaccinationFacility.facilityID = '$id'";
+  $sql_query = "select * from VaccinationFacility where VaccinationFacility.facilityID = '$facilityID'";
   $facilityID = mysqli_query($conn,$sql_query);
 }
 

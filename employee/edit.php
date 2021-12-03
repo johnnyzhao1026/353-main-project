@@ -3,7 +3,7 @@
 if(isset($_GET["id"])){
   $oldID = $_GET["id"];
   $jobID = $_GET["id"];
-  $sql_query = "select * from PublicHealthWorker where PublicHealthWorker.jobID = '$id'";
+  $sql_query = "select * from PublicHealthWorker where PublicHealthWorker.jobID = '$jobID'";
   $jobID = mysqli_query($conn,$sql_query);
 }
 

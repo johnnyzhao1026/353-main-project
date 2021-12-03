@@ -1,21 +1,17 @@
 <?php 
 require_once '../connectdb.php';
 
-    $personID = $_POST['personID'];
-    $facilityName = $_POST["facilityName"];
-    $jobTitle = $_POST["jobTitle"];
-    $startWorkDate = $_POST["startWorkDate"];
-    $endWorkDate = $_POST["endWorkDate"];
+$facilityName = $_POST['facilityName'];
+$personID = $_POST['personID'];
+$jobTitle = $_POST['jobTitle'];
+$startDate = $_POST['startDate'];
+$endtDate = $_POST['endtDate'];
+$facilityID = $_POST['facilityID'];
     
 
     //query
-      $sql_query = "update Person set personID = $personID";       
+      $sql_query = "UPDATE Assignment SET personID = $personID, facilityName = $facilityName, jobTitle
+      = $jobTitle, startWorkDate = $startWorkDate, endWorkDate = $endWorkDate, facilityID = $facilityID
+      WHERE Assignment.personID = '$personID'";       
       mysqli_query($conn,$sql_query);
-
-      $sql_query1 = "update VaccinationFacility set name = $facilityName";       
-      mysqli_query($conn,$sql_query1);
-
-      $sql_query2 = "update PublicHealthWorker set jobTitle = $jobTitle, startWorkDate = $startWorkDate, endWorkDate = $endWorkDate";       
-      mysqli_query($conn,$sql_query2);
-
 ?>

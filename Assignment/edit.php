@@ -3,11 +3,8 @@
 if(isset($_GET["id"])){
   
   $personID = $_GET["id"];
-  $sql_query = "select * from AppointmentInformation where AppointmentInformation.personID = '$personID'";
-  $sql_query = "SELECT Person.$personID, VaccinationFacility.$facilityName,PublicHealthWorker.$facilityJob, PublicHealthWorker.$startDate, PublicHealthWorker.$endtDate
-  FROM Person, PublicHealthWorker, VaccinationFacility
-  WHERE Person.$personID = PublicHealthWorker.personID AND PublicHealthWorker.facilityID = VaccinationFacility.facilityID";
-
+  $sql_query = "SELECT * FROM Assignment";
+  
   $Assignment = mysqli_query($conn,$sql_query);
 }
 ?>
@@ -31,7 +28,7 @@ if(isset($_GET["id"])){
       <input type=text name='personID' required value="<?=$data['personID']?>"> </input><br>
     
       <label> <b>facilityName</b> </label><br>
-      <input type=text  name='facilityName' required value="<?=$data['name']?>"> </input><br>
+      <input type=text  name='facilityName' required value="<?=$data['facilityName']?>"> </input><br>
 
       <label> <b>jobTitle</b> </label><br>
       <input type=text  name='jobTitle' required value="<?=$data['jobTitle']?>"> </input><br>
@@ -41,7 +38,12 @@ if(isset($_GET["id"])){
 
       <label> <b>endWorkDate</b> </label><br>
       <input type="date"  name='endWorkDate' required value="<?=$data['endWorkDate']?>"> </input><br>
-      <?php 
+     
+      <label> <b>facilityID</b> </label><br>
+      <input type=text placeholder="please enter your facility ID"  name='facilityID' required value="<?=$data['facilityID']?>"> </input><br>
+      
+
+     <?php 
     }
     ?>
 

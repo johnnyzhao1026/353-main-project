@@ -28,7 +28,7 @@ include_once '../connectdb.php';
         
 <?php
 
-$records = mysqli_query($conn,"select * from AppointmentInformation"); // fetch data from database
+$records = mysqli_query($conn,"SELECT * FROM AppointmentInformation"); // fetch data from database
 
 while($data = mysqli_fetch_array($records))
 {

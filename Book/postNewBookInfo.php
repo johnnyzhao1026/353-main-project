@@ -13,15 +13,14 @@ $timeTo = $_POST['timeTo'];
 
 
 // query
- $sql_query1 = "select AppointmentInformation.$facilityID, AppointmentInformation.$personID,  AppointmentInformation.$vaccinationType, AppointmentInformation.$date, AppointmentInformation.$time, AppointmentInformation.$timeTo
- from AppointmentInformation, Person, Province, VaccinationFacility
- where AppointmentInformation.$personID = Person.personID and Person.ageGroup = Province.allowedAgeGroup and Province.provinceID = VaccinationFacility.provinceID and VaccinationFacility.facilityID = AppointmentInformation.facilityID";
-
-  
+ $sql_query1 = "INSERT INTO AppointmentInformation (facilityID, personID, vaccinationType,
+ date,time, timeTo)
+  values ('$facilityID', '$personID'
+ '$vaccinationType', '$date', '$time', '$timeTo')";
   
       mysqli_query($conn,$sql_query1);
 
 
-  header("Location: ./create.php?create=success");
+  header("Location: ./book.php?create=success");
 ?> 
 

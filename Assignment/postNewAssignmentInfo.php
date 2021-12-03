@@ -5,31 +5,22 @@
 
 $facilityName = $_POST['facilityName'];
 $personID = $_POST['personID'];
-$facilityJob = $_POST['facilityJob'];
+$jobTitle = $_POST['jobTitle'];
 $startDate = $_POST['startDate'];
 $endtDate = $_POST['endtDate'];
+$facilityID = $_POST['facilityID'];
 
-$facilityName1 = $_POST['timeTo'];
-$facilityJob2 = $_POST['facilityJob2'];
-$startTime = $_POST['timeTo'];
-$endTime = $_POST['timeTo'];
 
 
 
 
 // query
- $sql_query = "SELECT Person.$personID, VaccinationFacility.$facilityName,PublicHealthWorker.$facilityJob, PublicHealthWorker.$startDate, PublicHealthWorker.$endtDate
- FROM Person, PublicHealthWorker, VaccinationFacility
- WHERE Person.$personID = PublicHealthWorker.personID AND PublicHealthWorker.facilityID = VaccinationFacility.facilityID";
+ $sql_query = "INSERT into Assignment (personID, facilityName, jobTitle,
+ startWorkDate,endWorkDate, facilityID)
+  values ('$personID', '$facilityName'
+ '$jobTitle', '$startDate', '$endtDate', '$facilityID');";
 
       mysqli_query($conn,$sql_query);
 
- $sql_query1 = "SELECT Person.$personID, VaccinationFacility.$facilityName1,
- Avaliablity.$startTime, Avaliablity.$endTime
- FROM Person, VaccinationFacility, PublicHealthWorker, Avaliablity
- WHERE Person.$personID = PublicHealthWorker.personID AND PublicHealthWorker.facilityID = VaccinationFacility.facilityID 
- AND VaccinationFacility.facilityID = Avaliablity.facilityID AND PublicHealthWorker.$facilityJob2 = 'nurse'";
-
-
-  header("Location: ./create.php?create=success");
+  header("Location: ./assignment.php?create=success");
 ?> 

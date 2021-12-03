@@ -7,8 +7,8 @@
     <title>Create Assignment for a worker</title>
 </head>
 <body>
-    <h1>Assignment for all workers</h1>
-    <form action="./postNewAssignmentInfo.php" method="post">
+    <h1>Create Assignment for a worker</h1>
+    <form action="./postNewAssignmentInfo.php" method="POST">
 
         <label> <b>Person ID</b> </label><br>
         <input type=text placeholder="please enter your personID" name='personID' required> </input><br>
@@ -18,7 +18,7 @@
             
 
         <label> <b>Job title</b> </label><br>
-        <input type="text" placeholder="please enter your position in facility" name="facilityJob" required> </input><br>
+        <input type="text" placeholder="please enter your position in facility" name="jobTitle" required> </input><br>
            
 
         <label> <b>Start Working Date</b> </label><br>
@@ -27,7 +27,10 @@
         <label> <b>End Working Date</b> </label><br>
         <input type="date" name='endtDate' required> </input><br><br><br>
 
-        <p>If you are a nurse, please enter the following blanks to see your working time in facility</p>
+        <label> <b>Facility ID</b> </label><br>
+        <input type="text" placeholder="please enter your facility id" name='facilityID' required> </input><br><br><br>
+
+        <!-- <p>If you are a nurse, please enter the following blanks to see your working time in facility</p>
         <br><h2>Nurse Working Time</h2><br>
 
         <label> <b>Person ID</b> </label><br>
@@ -45,7 +48,7 @@
         <input type="date" name='startTime'> </input><br>
 
         <label> <b>End Working Time</b> </label><br>
-        <input type="date" name='endTime'> </input><br><br><br>
+        <input type="date" name='endTime'> </input><br><br><br> -->
 
         <button type="submit">Add</button>
     </form>

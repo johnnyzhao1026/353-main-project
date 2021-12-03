@@ -18,7 +18,7 @@ if(isset($_GET["id"])){
 <body>
 <div><h1>Edit Appointment Information</h1>
     
-    <form action ="./updateAgeGroup.php" method ="post">
+    <form action ="./updateBook.php" method ="post">
     
     <?php
     while($data = mysqli_fetch_array($AppointmentInformation))

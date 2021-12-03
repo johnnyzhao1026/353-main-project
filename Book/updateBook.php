@@ -9,8 +9,10 @@ require_once '../connectdb.php';
     $timeTo = $_POST["timeTo"];
 
     //query
-      $sql_query = "update AppointmentInformation set facilityID = $facilityID, personID = $personID, vaccinationType = $vaccinationType, date = $date, time = $time, timeTo = $timeTo
-    where personID = $personID";
+      $sql_query = "UPDATE AppointmentInformation SET facilityID = $facilityID, personID = $personID, 
+      vaccinationType = $vaccinationType, date = $date, time = $time, 
+      timeTo = $timeTo
+    WHERE AppointmentInformation.personID = $personID";
         
         
       mysqli_query($conn,$sql_query);
